@@ -1,5 +1,5 @@
 #include "header.h"
-
+//Test comment
 int main()
 {
     char artistIds[1000][8], genders[1000], names[1000][40], phones[1000][11], emails[1000][80], artistIdRefs[1000][8], albumIds[1000][8], titles[1000][80], recordFormats[1000][20], datePublished[1000][11], paths[1000][100];
