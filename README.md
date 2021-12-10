@@ -1,4 +1,4 @@
-#Album Management System
+# Album Management System
 
 A system that keeps information about an artist and his/her albums.
 
@@ -17,7 +17,7 @@ A system that keeps information about an artist and his/her albums.
  * date: date published
  * Path: The path where the album is located
 
-###Check pdf for more.
+### Check pdf for more.
 
 ## Authors
 
