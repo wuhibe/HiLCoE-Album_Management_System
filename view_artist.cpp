@@ -152,7 +152,7 @@ void displaySearchResult(const char artistIds[][8], const char names[][40], cons
 {
     if (noResult == 0)
     {
-        cout << "\n  Nothing Found !\n";
+        cout << "\n  Nothing Found.\n";
     }
     else
     {

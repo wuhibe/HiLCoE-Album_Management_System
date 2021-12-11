@@ -7,6 +7,7 @@ char emmails[6][80] = {"teddy.afro@newmail.com", "aster.aweke@newmail.com", "eyo
 
 void loading(char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], char artistIdRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nArtist, int & nAlbum)
 {
+    system("cls");
     cout << "\n\t Album Management System\n\n" << "\tLoading Please Wait...\n\n";
     loadArtist(artistIds, names, genders, phones, emails, nArtist);
     loadAlbum(artistIdRefs, albumIds, titles, recordFormats, datePublished, paths, nAlbum);
@@ -38,8 +39,20 @@ void sortArtist(char artistIds[][8], char names[][40], char genders[], char phon
     {
         start = i;
         for (int j = i + 1; j < nArtist; j++)
-            if (names[j][0] < names[start][0])
-                start = j;
+        {
+            int test = 0;
+            while(true)
+            {
+                if (names[j][test] == names[start][test])
+                {
+                    test++;
+                    continue;
+                }
+                else if (names[j][test] < names[start][test])
+                    start = j;
+                break;
+            }
+        }
         if (start != i)
         {
             //sort names

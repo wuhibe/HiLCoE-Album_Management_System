@@ -41,13 +41,12 @@ bool validateGender(char gender);
 bool validatePhone(const char phone[]);
 bool validateEmail(const char email[]);
 void formatEmail(char email[]);
-
-void editArtist(const char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], int nArtist);
+void editArtist(char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], int nArtist);
 int selectArtist(const char artistIds[][8], const char names[][40], const char genders[], const char phones[][11], const char emails[][80], int nArtist, const int result[], int noResult, int forWhat);
 bool editArtistInfo(const char artistId[], char name[], char gender, char phone[], char email[]);
 void displayOneArtist(const char artistId[], const char name[], char gender, const char phone[], const char email[]);
 void deleteArtist(char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], char artistIdsRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nArtist, int & nAlbum);
-void removeArtist(char artistId[][8], char name[][40], char phone[][11], char email[][80], int selectedIdx, int & nArtist);
+void removeArtist(char artistId[][8], char name[][40],  char genders[], char phone[][11], char email[][80], int selectedIdx, int & nArtist);
 void removeArtistAllAlbums(const char artistId[], char artistIdsRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nAlbum);
 
 void farewell();

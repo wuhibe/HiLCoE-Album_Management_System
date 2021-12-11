@@ -13,8 +13,7 @@ bool artistEditor(char artistIds[][8], char names[][40], char genders[], char ph
         else if (choice == 2)
             editArtist(artistIds, names, genders, phones, emails, nArtist);
         else if (choice == 3)
-            //delete
-            cout << "delete";
+            deleteArtist(artistIds, names, genders, phones, emails, artistIdsRefs, albumIds, titles, recordFormats, datePublished, paths, nArtist, nAlbum);
         else if (choice == 4)
             return false;
         else if (choice == 5)
@@ -208,13 +207,22 @@ void formatEmail(char email[])
 {
     return;
 }
-void editArtist(const char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], int nArtist)
+//artistIds is a const * modified for convenience & forWhat(int) is unused variable
+void editArtist(char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], int nArtist)
 {
     int noResult = 0, result[1000], select = 0;
     searchArtist(artistIds, names, nArtist, result, &noResult);
-    select = selectArtist(artistIds, names, genders, phones, emails, nArtist, result, noResult, 0);
-    editArtistInfo(artistIds[select], names[select], genders[select], phones[select], emails[select]);
-    //sortArtist(artistIds, names, genders, phones, emails, nArtist);
+    if (noResult == 0)
+    {
+        cout << "\n Nothing found.\n";
+        getch();
+    }
+    else
+    {
+        select = selectArtist(artistIds, names, genders, phones, emails, nArtist, result, noResult, 0);//forWhat is the last var. Dont know what to do with it.
+        editArtistInfo(artistIds[select], names[select], genders[select], phones[select], emails[select]);
+        sortArtist(artistIds, names, genders, phones, emails, nArtist);
+    }
 }
 // IN Actual [declaration,definition, calling], there's no (gen, phones, emails, nartist) * added here for convenience
 // Recheck once done
@@ -222,8 +230,12 @@ int selectArtist(const char artistIds[][8], const char names[][40], const char g
 {
     int choice;
     displaySearchResult(artistIds, names, genders, phones, emails, nArtist, result, noResult);
-    cout << "Enter No of choice: ";
-    cin >> choice;
+    do{
+        cout << "Enter No of choice: ";
+        cin >> choice;
+        if (choice > noResult || choice < 1)
+            cout << "\n  Invalid Choice. ";
+    }while(choice > noResult || choice < 1);
     return result[choice - 1];
 }
 bool editArtistInfo(const char artistId[], char name[], char gender, char phone[], char email[])
@@ -234,6 +246,67 @@ bool editArtistInfo(const char artistId[], char name[], char gender, char phone[
     <<  "  Do you wish to edit Name? [y/n] ";
     cin >> choice;
     if (choice == 'y' || choice == 'Y')
-        getArtistName(name);
+    {
+        cout <<  "  Enter Artist Name: ";
+        cin.ignore();
+        cin.getline(name, 39, '\n');
+    }
+    cout << "  Do you wish to edit Gender? [y/n]";
+    cin >> choice;
+    if (choice == 'y' || choice == 'Y')
+    {
+        cout <<  "  Enter Artist Gender: ";
+        cin >> gender;
+    }
+    cout << "  Do you wish to edit Email? [y/n]";
+    cin >> choice;
+    if (choice == 'y' || choice == 'Y')
+    {
+        cout <<  "  Enter Artist Email: ";
+        cin >> email;
+    }
+    cout << "  Do you wish to edit Phone? [y/n]";
+    cin >> choice;
+    if (choice == 'y' || choice == 'Y')
+    {
+        cout <<  "  Enter Artist Phone: ";
+        cin >> phone;
+    }
     return true;
+}
+//What is forWhat???
+void deleteArtist(char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], char artistIdsRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nArtist, int & nAlbum)
+{
+    int result[1000], noResult, selectedId;
+    searchArtist(artistIds, names, nArtist, result, &noResult);
+    if (noResult == 0)
+    {
+        cout << "\n  Nothing found.\n";
+        getch();
+    }
+    else if (noResult > 0)
+    {
+        selectedId = selectArtist(artistIds, names, genders, phones, emails, nArtist, result, noResult, 0);// what is forWhat
+        removeArtist(artistIds, names, genders, phones, emails, selectedId, nArtist);//added genders
+    }
+}
+//removeArtist didnt take genders parameter
+void removeArtist(char artistId[][8], char name[][40], char genders[], char phone[][11], char email[][80], int selectedIdx, int & nArtist)
+{
+    int i = selectedIdx + 1;
+    while(i < nArtist)
+    {
+        strcpy(name[i - 1], name[i]);
+        strcpy(email[i - 1], email[i]);
+        strcpy(phone[i - 1], phone[i]);
+        strcpy(artistId[i - 1], artistId[i]);
+        genders[i - 1] = genders[i];
+        i++;
+    }
+    nArtist--;
+}
+//Not yet implemented
+void removeArtistAllAlbums(const char artistId[], char artistIdsRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nAlbum)
+{
+    return;
 }
