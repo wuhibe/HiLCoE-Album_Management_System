@@ -86,7 +86,7 @@ void sortArtist(char artistIds[][8], char names[][40], char genders[], char phon
     }
 }
 
-void loadAlbum(char artistIdRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nAlbum)
+void loadAlbum(char artistIdRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datesPublished[][11], char paths[][100], int & nAlbum)
 {
     for(int i = 0; i < 8; i++)
     {
@@ -98,7 +98,7 @@ void loadAlbum(char artistIdRefs[][8], char albumIds[][8], char titles[][80], ch
         strcpy(paths[i], Paths[i]);
         nAlbum++;
     }
-    sortAlbum(artistIdRefs, albumIds, titles, recordFormats, datePublished, paths, nAlbum);
+    sortAlbum(artistIdRefs, albumIds, titles, recordFormats, datesPublished, paths, nAlbum);
     return;
 }
 void sortAlbum(char artistIdRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int nAlbum)

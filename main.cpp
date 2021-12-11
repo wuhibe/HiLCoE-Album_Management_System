@@ -1,11 +1,10 @@
 #include "header.h"
-//Test comment
-//Second test
+
 int main()
 {
     char artistIds[1000][8], genders[1000], names[1000][40], phones[1000][11], emails[1000][80], artistIdRefs[1000][8], albumIds[1000][8], titles[1000][80], recordFormats[1000][20], datePublished[1000][11], paths[1000][100];
     int nArtist, nAlbum;
-    
+
     welcome();
     loading(artistIds, names, genders, phones, emails, artistIdRefs, albumIds, titles, recordFormats, datePublished, paths, nArtist, nAlbum);
     mainHandler(artistIds, names, genders, phones, emails, artistIdRefs, albumIds, titles, recordFormats, datePublished, paths, nArtist, nAlbum);
@@ -38,12 +37,11 @@ void mainHandler(char artistIds[][8], char names[][40], char genders[], char pho
         }
         else if (choice == 2)
         {
-            cout << "hi";/*   Album Manager not implemented yet
-            exit = albumManager();
+            exit = albumManager(artistIds, names, nArtist, artistIdsRefs, albumIds, titles, recordFormats, datePublished, paths, nAlbum);
             if (exit == true)
                 break;
             else
-                continue;*/
+                continue;
         }
         else if (choice == 3)
             break;

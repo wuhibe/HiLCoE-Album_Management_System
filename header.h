@@ -53,7 +53,9 @@ bool albumManager(const char artistIds[][8], const char artistNames[][40], int n
 int albumMenu();
 int viewAlbumMenu();
 bool albumViewer(const char artistIds[][8], const char artistNames[][40], int nArtist, const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], int nAlbum);
-void displayAllAlbums(const char artistIds[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], int nAlbum);
+void displayAllAlbums(const char artistIds[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], int nArtist, int nAlbum);
+void displayAlbumSearchResult(const char artistIds[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], const int result[], int nArtist, int nAlbum, int noResult);
+void viewArtistAlbumsBySearch(const char artistIds[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], int nArtist, int nAlbum);
 
 void farewell();
 #endif
