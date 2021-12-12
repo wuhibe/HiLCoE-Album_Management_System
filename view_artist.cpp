@@ -13,7 +13,7 @@ bool artistManager(char artistIds[][8], char names[][40], char genders[], char p
             if (exit == true)
                 break;
             else
-                continue;    
+                continue;
         }
         else if (choice == 2)
         {
@@ -21,7 +21,7 @@ bool artistManager(char artistIds[][8], char names[][40], char genders[], char p
             if (exit == true)
                 break;
             else
-                continue;    
+                continue;
         }
         else if (choice == 3)
             return false;
@@ -106,7 +106,7 @@ void searchArtist(const char artistIds[][8], const char names[][40], int nArtist
 {
     char str[40];
     system("cls");
-    cout << "\n\t Album Management System\n\n" << "  Enter Name or ID: ";
+    cout << "\n\t Album Management System\n\n" << "  Enter Artist Name or ID: ";
     cin.ignore();
     cin.getline(str, 39, '\n');
     if (str[0] >= '0' && str[0] <= '9')

@@ -15,14 +15,14 @@ bool albumManager(const char artistIds[][8], const char artistNames[][40], int n
             else
                 continue;
         }
-        /*else if (choice == 2)
+        else if (choice == 2)
         {
-            exit = albumEditor(artistIds, artistNames, artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, nAlbum);
+            exit = albumEditor(artistIds, artistNames, nArtist, artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, nAlbum);
             if (exit == true)
                 break;
             else
                 continue;
-        }*/
+        }
         else if (choice == 3)
             return false;
         else if (choice == 4)
@@ -104,9 +104,11 @@ void displayAllAlbums(const char artistIds[][8], const char artistNames[][40], c
 
 void viewArtistAlbumsBySearch(const char artistIds[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], int nArtist, int nAlbum)
 {
-    int noResult = 0, result[1000];
-
+    int noResult = 0, result[1000], select;
+    char genders[100] = {"-"}, phones[100][11] = {"---------"}, emails[100][80] = {"--------------"};
     searchArtist(artistIds, artistNames, nArtist, result, &noResult);
+    select = selectArtist(artistIds, artistNames, genders, phones, emails, nArtist, result, noResult, 0);
+    noResult = select;
     displayAlbumSearchResult(artistIds, artistNames, artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, result, nArtist, nAlbum, noResult);
 
     return;
@@ -114,28 +116,31 @@ void viewArtistAlbumsBySearch(const char artistIds[][8], const char artistNames[
 
 void displayAlbumSearchResult(const char artistIds[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], const int result[], int nArtist, int nAlbum, int noResult)
 {
+    system("cls");
+    cout << "\n\t Album Management System\n\n";
     if (noResult == 0)
     {
         cout << "\n  Nothing Found !\n";
     }
     else
     {
-        int nameindex;
+        int nameindex, i=1;
         cout << setw(5) <<"\nNo |" << setw(9) <<" AlbumID | "<< setw(30) << "Title" << "  | Artist Name   | " << setw(10) << "Artist ID" << " | Date published " << " | Format" << endl
-        <<"*******************************************************************************************************************************\n";
-        for (int i = 0; i < noResult; i++)
+        <<"************************************************************************************************************\n";
+        /*for (int i = 0; i < noResult; i++)
 
-        {
+        {*/
             for (int j = 0; j < nAlbum; j++) {
-                if (strcmp(artistIdsRef[j],artistIds[result[i]]) == 0){
+                if (strcmp(artistIdsRef[j],artistIds[noResult]) == 0){
 
                     nameindex = j;
-                    cout << setw(3) <<  i+1 << "|" << setw(9) << albumIds[nameindex] << " | " << setw(30) << titles[nameindex] << "  |   " << artistNames[result[i]] << "    | " << artistIds[result[i]] << " |  " << datesPublished[nameindex] << " |  " << recordFormats[nameindex] << endl;
-
+                    cout << setw(3) <<  i << "|" << setw(9) << albumIds[nameindex] << " | " << setw(30) << titles[nameindex] << "  |   " << artistNames[noResult] << "    | " << artistIds[noResult] << " |  " << datesPublished[nameindex] << " |  " << recordFormats[nameindex] << endl;
+                    i++;
                 }
             }
+
         }
-    }
+
     cout << endl;
     system("pause");
 }
