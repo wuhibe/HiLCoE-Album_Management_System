@@ -48,12 +48,12 @@ void displayOneArtist(const char artistId[], const char name[], char gender, con
 void deleteArtist(char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], char artistIdsRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nArtist, int & nAlbum);
 void removeArtist(char artistId[][8], char name[][40],  char genders[], char phone[][11], char email[][80], int selectedIdx, int & nArtist);
 void removeArtistAllAlbums(const char artistId[], char artistIdsRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nAlbum);
-
 bool albumManager(const char artistIds[][8], const char artistNames[][40], int nArtist, char artistIdsRef[][8], char albumIds[][8], char titles[][80],  char recordFormats[][20], char datePublisheds[][11], char paths[][100], int & nAlbum);
 int albumMenu();
 int viewAlbumMenu();
 bool albumViewer(const char artistIds[][8], const char artistNames[][40], int nArtist, const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], int nAlbum);
 void displayAllAlbums(const char artistIds[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], int nArtist, int nAlbum);
+void searchAlbumByArtistId(const char artistIdsRefs[][8], int nAlbum, const char target[], int result[], int *noResult);
 void displayAlbumSearchResult(const char artistIds[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], const int result[], int nArtist, int nAlbum, int noResult);
 void viewArtistAlbumsBySearch(const char artistIds[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], int nArtist, int nAlbum);
 bool albumEditor(const char artistIds[][8], const char artistNames[][40], int nArtist, char artistIdsRef[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datesPublished[][11], char paths[][100], int &nAlbum);
@@ -66,15 +66,19 @@ void getAlbumDate (char albumDate[]);
 void getAlbumPath (char albumPath[]);
 bool validateAlbumTitle (const char albumTitle[]);
 void formatAlbumTitle (char albumTitle[]);
-bool validateAlbumFormat (char albumFormat[]);//Parameter is const in pdf but strlwr has to be called to compare with only two possible inputs
+bool validateAlbumFormat (char albumFormat[]);
 void formatAlbumFormat(char albumFormat[]);
 bool validateAlbumDate(unsigned int day, unsigned int month, unsigned int year);
 void formatAlbumDate(char albumDate[], unsigned int day, unsigned int month, unsigned int year);
 bool validateAlbumPath(const char albumPath[]);
 void formatAlbumPath(char albumFormat[]);
 void editAlbum(const char artistIds[][8], const char artistNames[][40], int nArtist, char artistIdsRef[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublisheds[][11], char paths[][100], int nAlbum);
-void selectAlbum(const char artistId[], const char artistName[], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datePublisheds[][11], const char paths[][100], const int result[], int noResult, int forWhat );
+int selectAlbum(const char artistId[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], int nAlbum, const int result[], int noResult, int nArtist);
+
 bool editAlbumInfo(const char artistIdsRef[], const char albumIds[], char titles[], char recordFormats[], char datePublisheds[], char paths[]);
+void displayOneAlbum(const char artistIdsRef[], const char albumIds[], char titles[], char recordFormats[], char datePublisheds[], const char paths[]);
+void deleteAlbum(const char artistIds[][8], const char artistNames[][40], int nArtist, char artistIdsRef[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublisheds[][11], char paths[][100], int & nAlbum);
+void removeAlbum(char artistIdsRef[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublisheds[][11], char paths[][100], int & nAlbum, int selectedIdx);
 
 void farewell();
 #endif

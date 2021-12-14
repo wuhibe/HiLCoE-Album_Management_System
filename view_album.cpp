@@ -85,8 +85,8 @@ void displayAllAlbums(const char artistIds[][8], const char artistNames[][40], c
     int nameindex = 0;
     system("cls");
     cout << "\n\t Album Management System\n\n";
-    cout << setw(8) <<"\n AlbumID | "<< setw(20) << "Title" << setw(10) << "  | Artist Name   | " << setw(10) << "Artist ID" << setw(10) << " | Date published " << " | Format" << endl
-        <<"******************************************************************************************\n";
+    cout << setw(8) <<"\n AlbumID" << " | " << setw(30) << "Title" << "  | " << setw(22)<<  "Artist Names"<< " | " << setw(10) << "Artist ID" << setw(16) << " | Date published " << " | Format" << endl
+        <<"*************************************************************************************************************\n";
         for (int i = 0; i < nAlbum; i++)
         {
             for (int j = 0; j < nArtist; j++) {
@@ -95,7 +95,7 @@ void displayAllAlbums(const char artistIds[][8], const char artistNames[][40], c
                     break;
                 }
             }
-            cout << setw(8) << albumIds[i] << " | " << setw(20) << titles[i] << "  |   " <<  setw(10) << artistNames[nameindex] << "    | " << setw(10) << artistIds[nameindex] << "    |  " << setw(10) << datesPublished[i] << " |  " << recordFormats[i] << endl;
+            cout << setw(8) << albumIds[i] << " | " << setw(30) << titles[i] << "  |   " <<  setw(20) << artistNames[nameindex] << " | " << setw(10) << artistIds[nameindex] << " | " << setw(15) << datesPublished[i] << " |  " << recordFormats[i] << endl;
         }
     cout << endl;
     system("pause");
@@ -108,9 +108,7 @@ void viewArtistAlbumsBySearch(const char artistIds[][8], const char artistNames[
     char genders[100] = {"-"}, phones[100][11] = {"---------"}, emails[100][80] = {"--------------"};
     searchArtist(artistIds, artistNames, nArtist, result, &noResult);
     select = selectArtist(artistIds, artistNames, genders, phones, emails, nArtist, result, noResult, 0);
-    noResult = select;
     displayAlbumSearchResult(artistIds, artistNames, artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, result, nArtist, nAlbum, noResult);
-
     return;
 }
 
@@ -124,23 +122,29 @@ void displayAlbumSearchResult(const char artistIds[][8], const char artistNames[
     }
     else
     {
-        int nameindex, i=1;
+        int i = 1;
         cout << setw(5) <<"\nNo |" << setw(9) <<" AlbumID | "<< setw(30) << "Title" << "  | Artist Name   | " << setw(10) << "Artist ID" << " | Date published " << " | Format" << endl
         <<"************************************************************************************************************\n";
-        /*for (int i = 0; i < noResult; i++)
-
-        {*/
             for (int j = 0; j < nAlbum; j++) {
-                if (strcmp(artistIdsRef[j],artistIds[noResult]) == 0){
-
-                    nameindex = j;
-                    cout << setw(3) <<  i << "|" << setw(9) << albumIds[nameindex] << " | " << setw(30) << titles[nameindex] << "  |   " << artistNames[noResult] << "    | " << artistIds[noResult] << " |  " << datesPublished[nameindex] << " |  " << recordFormats[nameindex] << endl;
+                if (strcmp(artistIdsRef[j], artistIds[result[0]]) == 0){
+                    cout << setw(3) << i  << "|" << setw(9) << albumIds[j] << " | " << setw(30) << titles[j] << "  |   " << artistNames[result[0]] << "    | " << artistIds[result[0]] << " |  " << datesPublished[j] << " |  " << recordFormats[j] << endl;
                     i++;
                 }
             }
-
         }
-
     cout << endl;
     system("pause");
+}
+void searchAlbumByArtistId(const char artistIdsRefs[][8], int nAlbum, const char target[], int result[], int *noResult)
+{
+    int j = 0;
+    for (int i = 0; i < nAlbum; i++)
+    {
+        if (strcmp(target, artistIdsRefs[i]) == 0)
+        {
+            result[j] = i;
+            *noResult += 1;
+            j++;
+        }
+    }
 }

@@ -23,3 +23,5 @@ A system that keeps information about an artist and his/her albums.
 
  * Sofonias Ayele
  * Wuhibeselassie Tamire
+ * Yonas Taye
+ 

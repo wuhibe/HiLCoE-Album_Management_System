@@ -1,5 +1,4 @@
 #include "header.h"
-//do something about return of called functions
 bool albumEditor(const char artistIds[][8], const char artistNames[][40], int nArtist, char artistIdsRef[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datesPublished[][11], char paths[][100], int &nAlbum)
 {
     int choice;
@@ -10,11 +9,10 @@ bool albumEditor(const char artistIds[][8], const char artistNames[][40], int nA
         choice = editAlbumMenu();
         if (choice == 1)
             check = addAlbum(artistIds, artistNames, nArtist, artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, nAlbum);
-        /*else if (choice == 2)
-            editAlbum(artistIds, names, genders, phones, emails, nArtist);
+        else if (choice == 2)
+            editAlbum(artistIds, artistNames, nArtist, artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, nAlbum);
         else if (choice == 3)
-            deleteAlbum(artistIds, names, genders, phones, emails, artistIdsRefs, albumIds, titles, recordFormats, datePublished, paths, nArtist, nAlbum);
-        */
+            deleteAlbum(artistIds, artistNames, nArtist, artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, nAlbum);
         else if (choice == 4)
             return false;
         else if (choice == 5)
@@ -45,11 +43,9 @@ bool addAlbum(const char artistIds[][8], const char artistNames[][40], int nArti
     char genders[100] = "-", phones[100][11] = {"----------"}, emails[100][80] = {"---------------------"};
     int select, noResult = 0, result[1000];
 
-
     lastAlbumId++;
     itoa(lastAlbumId, postfix, 10);
     strcat(albid, postfix);
-
     getAlbumInfo(title, recordFormat, datePublished, path);
     searchArtist(artistIds, artistNames, nArtist, result, &noResult);
 
@@ -100,7 +96,6 @@ void getAlbumRecordFormat(char albumFormat[]) {
     system("cls");
     cout << "\n\t Album Management System\n\n"
     <<  "  Enter the Album Format at release (CD or Digital): ";
-    //cin.ignore();
     cin.getline(albumFormat, 19, '\n');
     if (!(validateAlbumFormat(albumFormat)))
     {
@@ -117,7 +112,6 @@ void getAlbumDate (char albumDate[]) {
     system("cls");
     cout << "\n\t Album Management System\n\n"
     <<  "  Enter the date of release (Day): ";
-    //cin.ignore();
     cin >> day;
     system("cls");
     cout << "\n\t Album Management System\n\n"
@@ -137,7 +131,7 @@ void getAlbumDate (char albumDate[]) {
 }
 
 void getAlbumPath (char albumPath[]) {
-    //Version 3
+    //to be implemented in Version 3
 }
 
 bool validateAlbumTitle (const char albumTitle[]) {
@@ -171,7 +165,7 @@ void formatAlbumTitle (char albumTitle[]) {
     }
 }
 
-bool validateAlbumFormat (char albumFormat[]) {//Parameter is const in pdf but strlwr has to be called to compare with only two possible inputs
+bool validateAlbumFormat (char albumFormat[]) {
     strlwr(albumFormat);
     if ((strcmp(albumFormat, "cd") == 0) || (strcmp(albumFormat, "digital") == 0)) {
         return true;
@@ -179,12 +173,12 @@ bool validateAlbumFormat (char albumFormat[]) {//Parameter is const in pdf but s
     return false;
 }
 
-void formatAlbumFormat(char albumFormat[]) {//Something's wrong here
+void formatAlbumFormat(char albumFormat[]) {
     if (strcmp(albumFormat, "cd") == 0) {
-        albumFormat = "CD";
+        strcpy(albumFormat, "CD");
     }
     else {
-        albumFormat = "Digital";
+        strcpy(albumFormat, "Digital");
     }
 }
 
@@ -241,7 +235,7 @@ void formatAlbumPath(char albumFormat[]) {
 }
 
 void editAlbum(const char artistIds[][8], const char artistNames[][40], int nArtist, char artistIdsRef[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datesPublished[][11], char paths[][100], int nAlbum){
-    int noResult = 0, result[1000], selectArt, selectAlb;
+    int noResult = 0, result[1000], selectArt, selectAlb, forWhat = 0;
     char genders[100] = {"-"}, phones[100][11] = {"---------"}, emails[100][80] = {"--------------"};
 
     searchArtist(artistIds, artistNames, nArtist, result, &noResult);
@@ -252,19 +246,137 @@ void editAlbum(const char artistIds[][8], const char artistNames[][40], int nArt
     }
     else
     {
-        selectArt = selectArtist(artistIds, artistNames, genders, phones, emails, nArtist, result, noResult, 0);//forWhat is the last var. Dont know what to do with it.
-        //selectAlb = selectAlbum(artistIds, artistNames, artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, result, noResult, forWhat)
-        editAlbumInfo(artistIdsRef[selectAlb], albumIds[selectAlb], titles[selectAlb], recordFormats[selectAlb], datesPublished[selectAlb], paths[selectAlb]);
+        selectArt = selectArtist(artistIds, artistNames, genders, phones, emails, nArtist, result, noResult, forWhat);
+        noResult = 0;
+        searchAlbumByArtistId(artistIds, nAlbum, artistIds[selectArt], result, &noResult);
+        if (noResult == 0)
+        {
+            cout << "\n Nothing found.\n";
+            getch();
+            return;
+        }
+        selectAlb = selectAlbum(artistIds, artistNames, artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, nAlbum, result, noResult, nArtist);
+        int i = 0;
+        cout << artistIds[selectAlb];
+        getch();
+        while (i < nAlbum)
+        {
+            if (strcmp(artistIdsRef[i], artistIds[selectAlb]))
+                break;
+            i++;
+        }
+        editAlbumInfo(artistIdsRef[i], albumIds[i], titles[i], recordFormats[i], datesPublished[i], paths[i]);
         sortAlbum(artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, nAlbum);
     }
 }
-
-void selectAlbum(const char artistId[], const char artistName[], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], const int result[], int noResult, int forWhat ) {
-
+int selectAlbum(const char artistId[][8], const char artistNames[][40], const char artistIdsRef[][8], const char albumIds[][8], const char titles[][80], const char recordFormats[][20], const char datesPublished[][11], const char paths[][100], int nAlbum, const int result[], int noResult, int nArtist)
+{
+    int choice;
+    displayAlbumSearchResult(artistId, artistNames, artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths, result, nArtist, nAlbum, noResult);
+    do{
+        cout << "Enter No of choice: ";
+        cin >> choice;
+    }while(choice < 1);
+    return result[choice - 1];
 }
-
 bool editAlbumInfo(const char artistIdsRef[], const char albumIds[], char titles[], char recordFormats[], char datesPublished[], char paths[]) {
+    char choice;
+
+    displayOneAlbum(artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths);
+    cout <<  "  Do you wish to edit Title? [y/n] ";
+    cin >> choice;
+    if (choice == 'y' || choice == 'Y')
+    {
+        cout <<  "  Enter Artist Title: ";
+        cin.ignore();
+        cin.getline(titles, 39, '\n');
+    }
+    displayOneAlbum(artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths);
+    cout << "  Do you wish to edit Format? [y/n]";
+    cin >> choice;
+    if (choice == 'y' || choice == 'Y')
+    {
+        cout <<  "  Enter Artist Format: ";
+        cin >> recordFormats;
+    }
+    displayOneAlbum(artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths);
+    cout << "  Do you wish to edit Date? [y/n]";
+    cin >> choice;
+    if (choice == 'y' || choice == 'Y')
+    {
+        cout <<  "  Enter Artist Date: ";
+        getAlbumDate(datesPublished);
+    }
+    displayOneAlbum(artistIdsRef, albumIds, titles, recordFormats, datesPublished, paths);
+    cout << "  Do you wish to edit Path? [y/n]";
+    cin >> choice;
+    if (choice == 'y' || choice == 'Y')
+    {
+        cout <<  "  Enter Artist Path: ";
+        cin >> paths;
+    }
+
     return true;
 }
+void displayOneAlbum(const char artistIdsRef[], const char albumIds[], char titles[], char recordFormats[], char datePublisheds[], const char paths[])
+{
+    system("cls");
+    cout << "\n\t Album Management System\n\n";
 
+    cout << "Title: \t\t\t" << titles << endl
+    << "Record Format: \t\t" << recordFormats << endl
+    << "Date Published: \t" << datePublisheds << endl
+    << "Path: \t\t" << paths << endl << endl;
+}
 
+void deleteAlbum(const char artistIds[][8], const char artistNames[][40], int nArtist, char artistIdsRef[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nAlbum)
+{
+    int result[100], noResult, selectArt, selectAlb;
+    char genders[100] = {"-"}, phones[100][11] = {"---------"}, emails[100][80] = {"--------------"};
+
+    searchArtist(artistIds, artistNames, nArtist, result, &noResult);
+
+    if (noResult == 0)
+    {
+        cout << "\n Nothing found.\n";
+        getch();
+    }
+    else
+    {
+        selectArt = selectArtist(artistIds, artistNames, genders, phones, emails, nArtist, result, noResult, 0);
+        int choice;
+        do{
+        system("cls");
+        cout << "\n\t Album Management System\n\n"
+        << "  Delete Album Menu\n" << "\t1. Delete 1 Album\n\t2. Delete All Artist's Album(s)\n\t3. Back to Album Menu\n";
+        cout << " >> ";
+        cin >> choice;
+        if (choice < 1 || choice > 3)
+        {
+            cout << "\n  Invalid Choice.\n  ";
+            system("pause");
+        }
+        }while(choice < 1 || choice > 3);
+
+        if (choice == 1)
+        {
+            selectAlb = selectAlbum(artistIds, artistNames, artistIdsRef, albumIds, titles, recordFormats, datePublished, paths, nAlbum, result, noResult, selectArt);
+            removeAlbum(artistIdsRef, albumIds, titles, recordFormats, datePublished, paths, nAlbum, selectAlb);
+        }
+        else if (choice == 2)
+            removeArtistAllAlbums(artistIds[selectArt], artistIdsRef, albumIds, titles, recordFormats, datePublished, paths, nAlbum);
+    }
+    return;
+}
+void removeAlbum(char artistIdsRef[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nAlbum, int selectedIdx)
+{
+    for (int j = selectedIdx; j < nAlbum; j++)
+    {
+        strcpy(artistIdsRef[j], artistIdsRef[j + 1]);
+        strcpy(albumIds[j], albumIds[j + 1]);
+        strcpy(titles[j], titles[j + 1]);
+        strcpy(recordFormats[j], recordFormats[j + 1]);
+        strcpy(datePublished[j], datePublished[j + 1]);
+    }
+    nAlbum--;
+}

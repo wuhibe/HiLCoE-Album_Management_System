@@ -69,7 +69,6 @@ bool artistViewer(const char artistIds[][8], const char names[][40], const char 
     }
     return true;
 }
-//Check View Artist Menu
 int viewArtistMenu()
 {
     int choice;
@@ -77,7 +76,6 @@ int viewArtistMenu()
     cout << "\n\t Album Management System\n\n"
     << "  View Artist Menu\n" << "\t1. Display All Artist\n\t2. View Artist By Search\n\t3. Back to Artist Menu\n\t4. Exit\n";
     cout << " >> ";
-    //Back to previous menu NOT main menu
     cin >> choice;
     return choice;
 }
@@ -166,4 +164,3 @@ void displaySearchResult(const char artistIds[][8], const char names[][40], cons
     cout << endl;
     system("pause");
 }
-

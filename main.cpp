@@ -52,7 +52,7 @@ void mainHandler(char artistIds[][8], char names[][40], char genders[], char pho
         }
     }
 }
-//Main menu
+
 int mainMenu()
 {
     int choice;

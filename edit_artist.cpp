@@ -1,5 +1,4 @@
 #include "header.h"
-//do something about return of called functions
 bool artistEditor(char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], char artistIdsRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nArtist, int & nAlbum)
 {
     int choice;
@@ -26,7 +25,6 @@ bool artistEditor(char artistIds[][8], char names[][40], char genders[], char ph
     }
     return true;
 }
-//Check Edit Artist Menu - same issue in View artist Menu
 int editArtistMenu()
 {
     int choice;
@@ -34,11 +32,9 @@ int editArtistMenu()
     cout << "\n\t Album Management System\n\n"
     << "  Edit Artist Menu\n" << "\t1. Add Artist\n\t2. Edit Artist\n\t3. Delete Artist\n\t4. Back to Artist Menu\n\t5. Exit\n";
     cout << " >> ";
-    //Back to previous menu NOT main menu
     cin >> choice;
     return choice;
 }
-//check return value
 bool addArtist(char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], int & nArtist)
 {
     char name[40], gender, phone[11], email[80], postfix[4], artid[8] = "art-";
@@ -46,9 +42,7 @@ bool addArtist(char artistIds[][8], char names[][40], char genders[], char phone
     lastArtistId++;
     itoa(lastArtistId, postfix, 10);
     strcat(artid, postfix);
-
     getArtistInfo(name, gender, phone, email);
-
     strcpy(names[nArtist], name);
     genders[nArtist] = gender;
     strcpy(phones[nArtist], phone);
@@ -146,7 +140,6 @@ bool validateName(const char name[])
     }
     return true;
 }
-//Not implemented enough
 void formatName(char name[])
 {
     int i = 0;
@@ -188,13 +181,11 @@ bool validatePhone(const char phone[])
         return false;
     return true;
 }
-//***Find better way***
 bool validateEmail(const char email[])
 {
     int i;
     while(email[i] != '\0')
     {
-        //Incomplete list and Implementation - I just gave up
         if ((email[i] < '0' || email[i] > '9') && (email[i] < 'A' || email[i] > 'Z') && (email[i] < 'a' || email[i] > 'z') &&
          email[i]!='@' && email[i] != '#' && email[i] != '.' && email[i] != '~' && email[i] != '-' && email[i] != '_')
             return false;
@@ -202,12 +193,10 @@ bool validateEmail(const char email[])
     }
     return true;
 }
-//not yet implemented
 void formatEmail(char email[])
 {
     return;
 }
-//artistIds is a const * modified for convenience & forWhat(int) is unused variable
 void editArtist(char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], int nArtist)
 {
     int noResult = 0, result[1000], select = 0;
@@ -219,13 +208,11 @@ void editArtist(char artistIds[][8], char names[][40], char genders[], char phon
     }
     else
     {
-        select = selectArtist(artistIds, names, genders, phones, emails, nArtist, result, noResult, 0);//forWhat is the last var. Dont know what to do with it.
+        select = selectArtist(artistIds, names, genders, phones, emails, nArtist, result, noResult, 0);
         editArtistInfo(artistIds[select], names[select], genders[select], phones[select], emails[select]);
         sortArtist(artistIds, names, genders, phones, emails, nArtist);
     }
 }
-// IN Actual [declaration,definition, calling], there's no (gen, phones, emails, nartist) * added here for convenience
-// Recheck once done
 int selectArtist(const char artistIds[][8], const char names[][40], const char genders[], const char phones[][11], const char emails[][80], int nArtist, const int result[], int noResult, int forWhat)
 {
     int choice;
@@ -241,9 +228,8 @@ int selectArtist(const char artistIds[][8], const char names[][40], const char g
 bool editArtistInfo(const char artistId[], char name[], char gender, char phone[], char email[])
 {
     char choice;
-    system("cls");
-    cout << "\n\t Album Management System\n\n"
-    <<  "  Do you wish to edit Name? [y/n] ";
+    displayOneArtist(artistId, name, gender, phone, email);
+    cout <<  "  Do you wish to edit Name? [y/n] ";
     cin >> choice;
     if (choice == 'y' || choice == 'Y')
     {
@@ -251,6 +237,7 @@ bool editArtistInfo(const char artistId[], char name[], char gender, char phone[
         cin.ignore();
         cin.getline(name, 39, '\n');
     }
+    displayOneArtist(artistId, name, gender, phone, email);
     cout << "  Do you wish to edit Gender? [y/n]";
     cin >> choice;
     if (choice == 'y' || choice == 'Y')
@@ -258,6 +245,7 @@ bool editArtistInfo(const char artistId[], char name[], char gender, char phone[
         cout <<  "  Enter Artist Gender: ";
         cin >> gender;
     }
+    displayOneArtist(artistId, name, gender, phone, email);
     cout << "  Do you wish to edit Email? [y/n]";
     cin >> choice;
     if (choice == 'y' || choice == 'Y')
@@ -265,6 +253,7 @@ bool editArtistInfo(const char artistId[], char name[], char gender, char phone[
         cout <<  "  Enter Artist Email: ";
         cin >> email;
     }
+    displayOneArtist(artistId, name, gender, phone, email);
     cout << "  Do you wish to edit Phone? [y/n]";
     cin >> choice;
     if (choice == 'y' || choice == 'Y')
@@ -274,7 +263,18 @@ bool editArtistInfo(const char artistId[], char name[], char gender, char phone[
     }
     return true;
 }
-//What is forWhat???
+
+void displayOneArtist(const char artistId[], const char name[], char gender, const char phone[], const char email[])
+{
+    system("cls");
+    cout << "\n\t Album Management System\n\n";
+
+    cout << "Full name: \t" << name << endl
+    << "Gender: \t" << gender << endl
+    << "Phone: \t\t" << phone << endl
+    << "Email: \t\t" << email << endl << endl;
+}
+
 void deleteArtist(char artistIds[][8], char names[][40], char genders[], char phones[][11], char emails[][80], char artistIdsRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nArtist, int & nAlbum)
 {
     int result[1000], noResult, selectedId;
@@ -287,10 +287,10 @@ void deleteArtist(char artistIds[][8], char names[][40], char genders[], char ph
     else if (noResult > 0)
     {
         selectedId = selectArtist(artistIds, names, genders, phones, emails, nArtist, result, noResult, 0);// what is forWhat
-        removeArtist(artistIds, names, genders, phones, emails, selectedId, nArtist);//added genders
+        removeArtistAllAlbums(artistIds[selectedId], artistIdsRefs, albumIds, titles, recordFormats, datePublished, paths, nAlbum);
+        removeArtist(artistIds, names, genders, phones, emails, selectedId, nArtist);
     }
 }
-//removeArtist didnt take genders parameter
 void removeArtist(char artistId[][8], char name[][40], char genders[], char phone[][11], char email[][80], int selectedIdx, int & nArtist)
 {
     int i = selectedIdx + 1;
@@ -305,8 +305,24 @@ void removeArtist(char artistId[][8], char name[][40], char genders[], char phon
     }
     nArtist--;
 }
-//Not yet implemented
 void removeArtistAllAlbums(const char artistId[], char artistIdsRefs[][8], char albumIds[][8], char titles[][80], char recordFormats[][20], char datePublished[][11], char paths[][100], int & nAlbum)
 {
-    return;
+    int i = 0;
+    while (i < nAlbum)
+    {
+        if (strcmp(artistIdsRefs[i], artistId) == 0)
+        {
+            for (int j = i; j < nAlbum; j++)
+            {
+                strcpy(artistIdsRefs[j], artistIdsRefs[j + 1]);
+                strcpy(albumIds[j], albumIds[j + 1]);
+                strcpy(titles[j], titles[j + 1]);
+                strcpy(recordFormats[j], recordFormats[j + 1]);
+                strcpy(datePublished[j], datePublished[j + 1]);
+            }
+            nAlbum--;
+            i = -1;
+        }
+        i++;
+    }
 }
